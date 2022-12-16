@@ -69,97 +69,141 @@ app.post(
       res.json({ ok: true });
     } catch (err) {
       console.log(err);
-      res.json({ ok: false, errors: [{msg:"Posiadasz już konto!"}] });
+      res.json({ ok: false, errors: [{ msg: "Posiadasz już konto!" }] });
     }
   }
 );
 
 // Handle login
-app.post('/api/login', [
-  check('password').trim().escape(),
-  check('mail').isEmail().trim().escape().normalizeEmail(),
-], async (req: express.Request, res: express.Response) => {
-  console.log(req.body);
+app.post(
+  "/api/login",
+  [
+    check("password").trim().escape(),
+    check("mail").isEmail().trim().escape().normalizeEmail(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    console.log(req.body);
 
-  const user = await User.findOne({
-    email: req.body.mail,
-  })
-  
-  if (!user) {
-    return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (isPasswordValid && process.env.JWT_SECRET) {
+      const token = jwt.sign(
+        {
+          name: user.name,
+          email: user.email,
+        },
+        process.env.JWT_SECRET
+      );
+
+      return res.json({
+        ok: true,
+        user: {
+          id: user._id,
+          token: token,
+          name: user.name,
+          mail: user.email,
+          profileImage: user.profileImage,
+          friendList: user.friendList
+        },
+      });
+    } else {
+      return res.json({
+        ok: false,
+        user: false,
+        error: "Mail lub hasło się nie zgadzają",
+      });
+    }
   }
-    
-  const isPasswordValid = await bcrypt.compare(
-    req.body.password,
-    user.password
-  )
+);
 
-  if (isPasswordValid && process.env.JWT_SECRET) {
+app.post(
+  "/api/getData",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
+    }
+
     const token = jwt.sign(
       {
         name: user.name,
         email: user.email,
       },
       process.env.JWT_SECRET
-    )
+    );
 
-    return res.json({ ok: true, user: {
-      token: token,
-      name: user.name,
-      mail: user.email,
-      profileImage: user.profileImage
-    } })
-  } else {
-    return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają'})
+    return res.json({
+      ok: true,
+      user: {
+        id: user._id,
+        token: token,
+        name: user.name,
+        mail: user.email,
+        profileImage: user.profileImage,
+        friendList: user.friendList
+      },
+    });
   }
-});
+);
 
-app.post('/api/getData', [
-  check('mail').isEmail().trim().escape().normalizeEmail(),
-], async (req: express.Request, res: express.Response) => {
+app.post(
+  "/api/findFriends",
+  [
+    check("id").trim().escape(),
+    check("inviterMail").isEmail().trim().escape().normalizeEmail(),
+    check("inviterName").trim().escape(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    let id = req.body.id,
+      inviterMail = req.body.inviterMail,
+      inviterName = req.body.inviterName;
 
-  const user = await User.findOne({
-    email: req.body.mail,
-  })
-  
-  if (!user) {
-    return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
-  }
-    
+    try {
+      const user = await User.findById(id)
+      const inviterUser = await User.findOne({email: inviterMail});
 
-  const token = jwt.sign(
-    {
-      name: user.name,
-      email: user.email,
-    },
-    process.env.JWT_SECRET
-  )
+      let friendList = user.friendList,
+          newFriendA = {inviterID: inviterUser._id ,inviterMail: inviterMail, inviterName: inviterName},
+          newFriendB = {inviterID: id ,inviterMail: user.email, inviterName: user.name};
 
-    return res.json({ ok: true, user: {
-      token: token,
-      name: user.name,
-      mail: user.email,
-      profileImage: user.profileImage
-    } })
-});
-
-app.post('/api/findFriends', [
-  check('id').trim().escape(),
-], async (req: express.Request, res: express.Response) => {
-    console.log(req.body);
-
-    
-      const users = await User.findById(req.body.id, (err: any, result: any) => {
-        if (err) {
-          res.send(err);
-        } else {
-          console.log(result);
-          res.json(result);
+      friendList.forEach((el) => {
+        if (el.inviterMail == newFriendA.inviterMail){
+      
+          return res.json({ok: false, error: "Ta osoba jest juz twoim znajomym"})
         }
-      }).catch(function() {
-          res.json('')
       })
 
-});
+      await User.updateOne({_id: id}, {
+        friendList: [...friendList, newFriendA]
+      })
+
+      await User.updateOne({_id: inviterUser._id}, {
+        friendList: [...inviterUser.friendList, newFriendB]
+      })
+      console.log('updateuje')
+
+      return res.json({ok: true, msg: `Dodano ${user.name}`})
+
+    } catch (err) {
+      console.log('test');
+      return res.json({ok: false, error: "Wystąpił błąd"})
+    }
+  }
+);
 
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));

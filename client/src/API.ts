@@ -1,10 +1,17 @@
 export type UserInfoType = {
+  id: string;
   name: string;
   mail: string;
   token: string;
   profileImage: string;
-  friendList: Array<string>;
+  friendList: Array<FriendType>;
 };
+
+export type FriendType = {
+  inviterID: string;
+  inviterMail: string;
+  inviterName: string;
+}
 
 export default {
   signUpFetch: async (name: string, mail: string, password: string) => {
