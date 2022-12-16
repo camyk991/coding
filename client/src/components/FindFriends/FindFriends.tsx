@@ -3,9 +3,10 @@ import API, { UserInfoType } from '../../API';
 
 type Props = {
   userData: UserInfoType | undefined;
+  getData: () => Promise<void>
 }
 
-const FindFriends: React.FC<Props> = ({userData}) => {
+const FindFriends: React.FC<Props> = ({userData, getData}) => {
   const [loading, setLoading] = useState(false);
   const [friendID, setFriendID] = useState('');
   const [info, setInfo] = useState('');
@@ -25,6 +26,12 @@ const FindFriends: React.FC<Props> = ({userData}) => {
       
     const data = await API.findUsers(friendID, userData?.name, userData?.mail )
 
+    if (data.ok) {
+      setInfo(data.msg);
+      getData();
+    } else {
+      setInfo(data.error)
+    }
 
 
     console.log(data);

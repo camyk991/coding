@@ -56,10 +56,10 @@ export const useIsLoggedIn = () => {
       setLoggedIn(false);
       return;
     }
-
     console.log(data.user);
-
     setUserData(data.user);
+    localStorage.removeItem('user');
+    localStorage.setItem('user', JSON.stringify(data.user));
   }
 
   return {loggedIn, setLoggedIn, userData, setUserData, loading, getData};
