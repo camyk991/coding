@@ -1,4 +1,4 @@
-import "./Room.css";
+import "./Room.scss";
 
 function MembersContainer(props) {
   const { users, tracks, userName, memberContainer } = props;

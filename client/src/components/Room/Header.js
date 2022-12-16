@@ -1,5 +1,5 @@
 import logo from "./logo.png";
-import "./Room.css";
+import "./Room.scss";
 
 export default function Header(props) {
   const { handleMemberContainer, handleChatPanel } = props;

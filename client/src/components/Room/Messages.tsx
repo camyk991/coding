@@ -1,4 +1,4 @@
-import "./Room.css";
+import "./Room.scss";
 import React from "react";
 import { useState, useEffect } from "react";
 

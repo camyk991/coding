@@ -1,9 +1,9 @@
-import "./Room.css";
+import "./Room.scss";
 import Video from "./Video";
 import Messages from "./Messages";
+import Header from "../Header/Header";
 
 import { useState } from "react";
-import Header from "./Header";
 import MembersContainer from "./MembersContainer";
 
 function Room(props) {
@@ -35,21 +35,10 @@ function Room(props) {
   }
 
   return (
-    <div className="Room">
-      <Header
-        handleMemberContainer={handleMemberContainer}
-        handleChatPanel={handleChatPanel}
-      ></Header>
-
+    <div className="RoomMain">
+      <Header ></Header>
       <main className="container">
         <div id="room__container">
-          <MembersContainer
-            users={users}
-            tracks={tracks}
-            userName={userName}
-            memberContainer={memberContainer}
-          ></MembersContainer>
-
           <Video tracks={tracks} users={users} />
 
           <Messages
