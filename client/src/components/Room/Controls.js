@@ -1,11 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { useClient, getScreenVideoTrack } from "./settings";
+import { useState } from "react";
+import { useClient } from "./settings";
 import styled from "styled-components";
-import {
-  createScreenVideoTrack,
-  createClient,
-  AgoraVideoPlayer,
-} from "agora-rtc-react";
 
 import ScreenShare from "./ScreenShare";
 
@@ -133,7 +128,6 @@ export default function Controls(props) {
           <ActionBtn
             onClick={() => {
               setIsScreenSharing(!isScreenSharing);
-              setIfScreenShared(true);
             }}
             style={{
               backgroundColor: isScreenSharing ? "#845695" : "#262625",
@@ -153,6 +147,7 @@ export default function Controls(props) {
               tracks={videoTrack}
               users={users}
               ifScreenShared={ifScreenShared}
+              setIfScreenShared={setIfScreenShared}
             />
           </ActionBtn>
         </div>
