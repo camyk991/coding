@@ -117,7 +117,6 @@ app.post('/api/login', [
 app.post('/api/getData', [
   check('mail').isEmail().trim().escape().normalizeEmail(),
 ], async (req: express.Request, res: express.Response) => {
-  console.log(req.body);
 
   const user = await User.findOne({
     email: req.body.mail,
@@ -142,6 +141,25 @@ app.post('/api/getData', [
       mail: user.email,
       profileImage: user.profileImage
     } })
+});
+
+app.post('/api/findFriends', [
+  check('id').trim().escape(),
+], async (req: express.Request, res: express.Response) => {
+    console.log(req.body);
+
+    
+      const users = await User.findById(req.body.id, (err: any, result: any) => {
+        if (err) {
+          res.send(err);
+        } else {
+          console.log(result);
+          res.json(result);
+        }
+      }).catch(function() {
+          res.json('')
+      })
+
 });
 
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
