@@ -39,8 +39,8 @@ function Messages(props: any) {
         //preventing doubled received messages
         if (previous.length > 0) {
           if (
-            previous[previous.length - 1].uid == uid &&
-            previous[previous.length - 1].msg == msg
+            previous[previous.length - 1].uid === uid &&
+            previous[previous.length - 1].msg === msg
           ) {
             return [...previous];
           } else {
@@ -72,6 +72,14 @@ function Messages(props: any) {
     setTextInput("");
   };
 
+  const getMsg = (msg: any) => {
+    if (msg.messageType === "TEXT" || msg.messageType === undefined) {
+      return msg.text;
+    } else {
+      return "Nieobsługiwany typ wiadomości";
+    }
+  };
+
   return (
     <div className="Messages">
       {/* MESSAGES CONTAINER */}
@@ -80,7 +88,7 @@ function Messages(props: any) {
         className={chatPanel ? "messages__container__hidden" : undefined}
       >
         <div id="messages">
-          {texts.map((text, i) => (
+          {texts.map((text: messageStore, i) => (
             <div key={i} className="message__wrapper">
               <div className="message__body">
                 <strong
@@ -89,7 +97,7 @@ function Messages(props: any) {
                 >
                   {text.uid}
                 </strong>
-                <p className="message__text">{text.msg["text"]}</p>
+                <p className="message__text">{getMsg(text.msg)}</p>
               </div>
             </div>
           ))}
