@@ -110,6 +110,7 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
 					<p>
 						<input type="submit" className="submit" value="Zarejestruj!" />
 					</p>
+          {info}
 				</form>
 			</div>
 		</div>
