@@ -18,6 +18,10 @@ let userSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
+    },
+    friendList: {
+      type: Array,
+      default: []
     }
   },
   { collection: 'users' }

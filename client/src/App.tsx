@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
+import Dashboard from './components/FindFriends/FindFriends';
+import FindFriends from './components/FindFriends/FindFriends';
 
 function App() {
   
@@ -17,6 +19,7 @@ function App() {
         <Route path="/" element={<Home isLoggedIn={loggedIn} />}></Route>
         <Route path="/sign-up" element={<Register isLoggedIn={loggedIn}/>}></Route>
         <Route path="/sign-in" element={<Login isLoggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserData={setUserData} />}></Route>
+        <Route path="/dashboard" element={<FindFriends userData={userData}/>} />
       </Routes>
     </div>
   );
