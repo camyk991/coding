@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom';
 import API, { UserInfoType } from '../../API';
+import '../../components/common/sass/auth.scss';
+import logo from '../../resources/logo.png';
 
 type Props = {
   isLoggedIn: boolean;
@@ -55,8 +57,10 @@ const Login: React.FC<Props> = ({isLoggedIn, setLoggedIn, setUserData}) => {
 
   return (
     <div className='container'>
-
+      <div className='login'>
+        <img src={logo} alt="logo" className='logo' />
         <form method="POST" onSubmit={handleSubmit}>
+        <span className='welcome'>Witaj! Z tej strony <i>Mesafe</i> - jestem bezpiecznym kominukatorem stosującym szyfrowanie E2E. Zaloguj się, abyśmy mogli rozmawiać dalej</span>
           <p>
             <input
               onChange={(e) => setMail(e.target.value)}
@@ -79,11 +83,12 @@ const Login: React.FC<Props> = ({isLoggedIn, setLoggedIn, setUserData}) => {
               autoComplete='new-password'
             />
           </p>
-          <p>Nie masz konta?<Link to="/sign-up"><b>&nbsp;Zarejestruj się!</b></Link></p>
+          <p className='reg'>Nie masz konta?<Link to="/sign-up"><i>&nbsp;Zarejestruj się!</i></Link></p>
           <p>
-            <input type="submit" value="Zaloguj się" />
+            <input type="submit" className='submit' value="Zaloguj!" />
           </p>
         </form>
+      </div>
     </div>
   )
 }
