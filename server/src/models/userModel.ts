@@ -18,16 +18,7 @@ let userSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
-    },
-    subjects: {
-      type: [],
-    },
-    studied: {
-      type: Number,
-    },
-    taught: {
-      type: Number
-    },
+    }
   },
   { collection: 'users' }
 )
