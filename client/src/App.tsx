@@ -1,11 +1,12 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./components/common/sass/App.scss";
-import { useIsLoggedIn } from "./hooks/useIsLoggedIn";
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Register from "./components/Register/Register";
-import Login from "./components/Login/Login";
+import React from 'react';
+import logo from './logo.svg';
+import './components/common/sass/App.scss';
+import { useIsLoggedIn } from './hooks/useIsLoggedIn';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
+import Header from './components/Header/Header';
 import Dashboard from "./components/FindFriends/FindFriends";
 import FindFriends from "./components/FindFriends/FindFriends";
 import Main from "./components/Room/Main";
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header></Header>
       <Routes>
         <Route path="/" element={<Home isLoggedIn={loggedIn} />}></Route>
         <Route
