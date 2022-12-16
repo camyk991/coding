@@ -6,6 +6,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import Dashboard from "./components/FindFriends/FindFriends";
+import FindFriends from "./components/FindFriends/FindFriends";
 import Main from "./components/Room/Main";
 
 function App() {
@@ -30,6 +32,10 @@ function App() {
             />
           }
         ></Route>
+        <Route
+          path="/dashboard"
+          element={<FindFriends userData={userData} />}
+        />
         <Route path="/test" element={<Main />}></Route>
       </Routes>
     </div>

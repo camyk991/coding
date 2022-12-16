@@ -3,6 +3,7 @@ export type UserInfoType = {
   mail: string;
   token: string;
   profileImage: string;
+  friendList: Array<string>;
 };
 
 export default {
@@ -49,6 +50,23 @@ export default {
       },
       body: JSON.stringify({
         mail: mail,
+      }),
+    });
+
+    return await res.json();
+  },
+  findUsers: async(id: string, inviterName: string, inviterMail: string) => {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/findFriends`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        inviterMail: inviterMail,
+        inviterName: inviterName
       }),
     });
 
