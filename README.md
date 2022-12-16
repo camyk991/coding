@@ -3,10 +3,10 @@
 instalacja
 
 wchodzisz do servera:
-npm install
+npm ci --include=dev
 
 wchodzisz do clienta
-npm install
+npm ci --include=dev
 
 
 Odpalanie:
