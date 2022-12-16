@@ -1,8 +1,13 @@
 @use '../common/sass/variables' as v;
 
 nav {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    max-height: 90px;
+    height: auto;
+    min-height: 90px;
     background-color: v.$color--darker;
     border-radius: 0px 0px 25px 25px;
     align-items: center;

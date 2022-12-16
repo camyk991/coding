@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './components/common/sass/App.scss';
+import './components/Room/Room.scss';
 import { useIsLoggedIn } from './hooks/useIsLoggedIn';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';

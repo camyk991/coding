@@ -1,4 +1,3 @@
-import "./Room.scss";
 import Video from "./Video";
 import Messages from "./Messages";
 import Header from "../Header/Header";

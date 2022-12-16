@@ -1,8 +1,9 @@
-import "./Room.scss";
 import React from "react";
 import { useState, useEffect } from "react";
 
 import { RtmMessage } from "agora-rtm-react";
+import Send from "../../resources/icons/send.svg";
+import Avatar from "../../resources/avatar.jpg";
 
 // import { text } from "stream/consumers";
 
@@ -83,21 +84,18 @@ function Messages(props: any) {
   return (
     <div className="Messages">
       {/* MESSAGES CONTAINER */}
+      <h2>Wiadomości</h2>
       <section
         id="messages__container"
         className={chatPanel ? "messages__container__hidden" : undefined}
       >
         <div id="messages">
           {texts.map((text: messageStore, i) => (
-            <div key={i} className="message__wrapper">
+            <div key={i} className={ (text.uid === uid) ? "author message__wrapper" : "message__wrapper" }>
               <div className="message__body">
-                <strong
-                  className="message__author"
-                  style={{ color: text.uid === uid ? "#ae00ff" : "#2aca3e" }}
-                >
-                  {text.uid}
-                </strong>
                 <p className="message__text">{getMsg(text.msg)}</p>
+                {/* TODO GET AVATAR FROM USER */}
+                <img className="message__avatar" src={Avatar} alt="avatar" />
               </div>
             </div>
           ))}
@@ -110,12 +108,20 @@ function Messages(props: any) {
           }}
         >
           <input
+            id="message__input"
             type="text"
             name="message"
-            placeholder="Send a message...."
+            placeholder="Napisz wiadomość..."
             value={textInput}
             onChange={(e) => setTextInput(e.target.value)}
           />
+
+          <button
+            id="message__submit"
+            type="submit"
+          >
+            <img src={Send} alt="send" />
+          </button>
         </form>
       </section>
     </div>

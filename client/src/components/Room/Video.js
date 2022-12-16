@@ -78,7 +78,7 @@ export default function Video(props) {
           id="1"
           onClick={expandVideoFrame}
           style={{
-            border: "2px solid #b366f9",
+            // border: "2px solid #b366f9",
           }}
         >
           <div className="video-player" id="user-1">
