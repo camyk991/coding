@@ -15,16 +15,12 @@ export default function VideoCall(props) {
   let client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
-  //rtm init
   const rtmClient = useRtmClient();
-  //const testChannel = useChannel(rtmClient);
 
   //get the roomId from the url
   const url = window.location.href;
   const urlArr = url.split("/");
   const lastSegment = urlArr.pop() || urlArr.pop();
-
-  // const [memberName, setMemberName] = useState([]);
 
   // const rtmClient = useRtmClient;
   const testChannel = useRef(rtmClient.createChannel(lastSegment)).current;
@@ -46,11 +42,7 @@ export default function VideoCall(props) {
             return [...new Set([...prevUsers, user])];
           });
 
-          user.videoTrack.play();
-
-          // setMemberName((prevName) => {
-          //   return [...prevName];
-          // });
+          if (user.videoTrack) user.videoTrack.play();
         }
 
         if (mediaType === "audio") {
@@ -65,17 +57,6 @@ export default function VideoCall(props) {
         }
         if (mediaType === "video") {
           if (user.videoTrack) user.videoTrack.stop();
-          //MUTING AND OTHER STUFF
-          //since setMuted basically calles user-unpublish this will handle the muting
-          //so right now the circle doesn't disappear, which is good, only the icon shows up
-          //but now it doesn't appear back until you do sth with it
-          //dunno a problem with refreshing or sth?
-
-          //when I click on it while it's muted it crashes for sm reason
-
-          // setUsers((prevUsers) => {
-          //   return prevUsers.filter((User) => User.uid !== user.uid);
-          // });
         }
       });
 
@@ -98,12 +79,6 @@ export default function VideoCall(props) {
       } catch (error) {
         console.log("error");
       }
-
-      // //get video and audio and publish them
-      // if (tracks) {
-      //   await client.publish([tracks[0], tracks[1]]);
-      // }
-      // setStart(true);
     };
 
     let rtmInit = async () => {

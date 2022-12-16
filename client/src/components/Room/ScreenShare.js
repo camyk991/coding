@@ -6,7 +6,7 @@ export default function ScreenShare(props) {
   const client = useClient();
   const { tracks: videoTrack, users } = props;
 
-  const { isScreenSharing, ifScreenShared } = props;
+  const { isScreenSharing, ifScreenShared, setIfScreenShared } = props;
 
   const getScreenSharingVideoTrack = (tracks) => {
     if (Array.isArray(tracks)) {
@@ -20,6 +20,7 @@ export default function ScreenShare(props) {
   if (isScreenSharing) {
     const { ready, tracks } = getScreenVideoTrack();
     screenTracks = tracks;
+    setIfScreenShared(true);
   }
 
   const tracksRef = useRef(screenTracks);
@@ -36,11 +37,11 @@ export default function ScreenShare(props) {
     client.publish(screenTrack);
 
     //1-video, 0-audio
-    videoTrack[1] = screenTrack; //now we can see our screen as well
+    //videoTrack[1] = screenTrack; //now we can see our screen as well
   }
 
-  if (ifScreenShared) {
-    if (!isScreenSharing) {
+  if (!isScreenSharing) {
+    if (ifScreenShared) {
       client.unpublish(screenTrack);
       client.publish([videoTrack[1]]);
     }
