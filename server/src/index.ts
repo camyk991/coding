@@ -14,7 +14,7 @@ console.log("test!");
 const app = express();
 const port = 5000;
 
-// connectDB();
+connectDB();
 
 app.use(cors());
 
