@@ -1,17 +1,31 @@
-# coding
+# Coding Night
 
-instalacja
+# Prerequisites
+- Node.js with npm package manager
 
-wchodzisz do servera:
-npm ci --include=dev
+# Instalation
 
-wchodzisz do clienta
-npm ci --include=dev
+Once you have all prerequisites installed,
+run below commands in this folders `client` and `server`:
+
+- `npm ci --include=dev`
+
+# Development
+
+Running the server:
+
+Make sure you're in `server` directory
+
+- `npm run dev`
 
 
-Odpalanie:
-w serverze jako dev:
-npm run dev
+Running the clint:
 
-w cliencie
-npm start
+Make sure you're in `client` directory
+
+- `npm start`
+
+
+# Description of the directories
+- `node_modules` - managed by npm, contains all frontend dependencies
+- `dist` - managed by npm, contains all compiled frontend assets
