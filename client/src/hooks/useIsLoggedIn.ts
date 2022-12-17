@@ -4,7 +4,7 @@ import API, { UserInfoType } from "../API";
 
 export const useIsLoggedIn = () => {
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<any>(false);
   const [userData, setUserData] = useState<UserInfoType>();
   const [loading, setLoading] = useState(false);
 
