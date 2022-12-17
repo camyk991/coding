@@ -2,6 +2,8 @@ import React from 'react';
 import './Header.scss';
 import logo from '../../resources/logo.png'
 import add from '../../resources/icons/add.svg';
+import { Link, useNavigate } from 'react-router-dom';
+import Controls from '../Room/Controls';
 
 const Header = (props: any) => {
     const user = "użytkowniku";
