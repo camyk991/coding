@@ -7,6 +7,7 @@ import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/FindFriends/FindFriends";
 import Main from "./components/Room/Main";
+import Chat from './components/Chat/Chat';
 import VideoCall from "./components/Room/VideoCall";
 import { useState } from "react";
 
@@ -21,6 +22,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home isLoggedIn={loggedIn} />}></Route>
+
+        <Route path="/dashboard/:id" element={<Chat userData={userData} />} />
 
         <Route
           path="/sign-up"
