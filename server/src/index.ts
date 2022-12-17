@@ -196,8 +196,8 @@ app.post(
       const inviterUser = await User.findOne({email: inviterMail});
 
       let friendList = user.friendList,
-          newFriendA = {inviterID: inviterUser._id ,inviterMail: inviterMail, inviterName: inviterName},
-          newFriendB = {inviterID: id ,inviterMail: user.email, inviterName: user.name};
+          newFriendA = {inviterID: inviterUser._id, inviterMail: inviterMail, inviterName: inviterName},
+          newFriendB = {inviterID: user._id, inviterMail: user.email, inviterName: user.name};
 
       friendList.forEach((el) => {
         if (el.inviterMail == newFriendA.inviterMail){
@@ -245,38 +245,127 @@ app.post('/api/uploadFile', upload.single('file'), async (req: express.Request, 
 });
 
 // New conversation
-app.post('/api/conversation', async (req: express.Request, res: express.Response) => {
-  const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId],
-  });
+// app.post('/api/conversation', async (req: express.Request, res: express.Response) => {
+//   const newConversation = new Conversation({
+//     members: [req.body.senderId, req.body.receiverId],
+//   });
 
+//   try {
+//     const savedConversation = await newConversation.save();
+//     res.status(200).json(savedConversation);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// })
+
+// app.get("/api/conversation/:userId", async (req: express.Request, res: express.Response) => {
+//   try {
+//     const conversation = await Conversation.find({
+//       members: { $in: [req.params.userId] },
+//     });
+//     res.status(200).json(conversation);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+// app.post("/api/message", async (req: express.Request, res: express.Response) => {
+//   const newMessage = new Message(req.body);
+
+//   try {
+//     const savedMessage = await newMessage.save();
+//     res.status(200).json(savedMessage);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// })
+
+// app.get("/api/message/:conversationId", async (req: express.Request, res: express.Response) => {
+//   try {
+//     const messages = await Message.find({
+//       conversationId: req.params.conversationId,
+//     });
+//     res.status(200).json(messages);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+app.post("/api/getMessages", async (req: express.Request, res: express.Response) => {
+  let id = req.body.userId,
+      chatId = req.body.chatId
+
+  console.log("get");
   try {
-    const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
+    const user = await User.findById(id)
+    const user2 = await User.findById(chatId)
+
+    const conv = user.friendList.filter((el) => {
+      console.log(el.inviterID)
+      console.log(user2._id)
+      if (el.inviterID.toString() === user2._id.toString()) {
+        console.log("found " + el.toString())
+        return el;
+      }
+    })
+
+    
+
+    return res.json(conv[0])
+
   } catch (err) {
-    res.status(500).json(err);
+    return res.json({ok: false, error: "Błąd"})
   }
 })
 
-app.get("/api/conversation/:userId", async (req: express.Request, res: express.Response) => {
-  try {
-    const conversation = await Conversation.find({
-      members: { $in: [req.params.userId] },
-    });
-    res.status(200).json(conversation);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-app.post("/api/message", async (req: express.Request, res: express.Response) => {
-  const newMessage = new Message(req.body);
+app.post("/api/sendMessage", async (req: express.Request, res: express.Response) => {
+  let id = req.body.userId, // moje id
+      chatId = req.body.chatId, // id rozmowcy
+      obj = req.body.message // obiekt wiadomosci
 
   try {
-    const savedMessage = await newMessage.save();
-    res.status(200).json(savedMessage);
+    const userA = await User.findById(id);
+    const userB = await User.findById(chatId);
+    let AIndex = -1,
+        BIndex = -1;
+
+    const conv = userA.friendList.filter((el, i) => {
+      console.log('el.inviterID: ' + el.inviterID);
+      console.log('userB._id: ' + userB._id);
+      if (el.inviterID.toString() == userB._id.toString()) {
+        console.log('found A: ' + i);
+        AIndex = i;
+        return el;
+      }
+    })
+
+    // console.log(userB);
+
+    const convB = userB.friendList.filter((el, i) => {
+      console.log('el.inviterID: ' + el.inviterID);
+      console.log('userA._id: ' + userA._id);
+      if (el.inviterID.toString() == userA._id.toString()) {
+        console.log('found B: ' + i);
+        BIndex = i;
+        return el;
+      }
+    })
+
+    console.log(AIndex, BIndex);
+
+    if (!userA.friendList[AIndex].messages) userA.friendList[AIndex].messages = [];
+    userA.friendList[AIndex].messages = [...userA.friendList[AIndex].messages, obj]
+    await User.updateOne({_id: userA._id}, {friendList: userA.friendList})
+
+    if (!userB.friendList[BIndex].messages) userB.friendList[BIndex].messages = [];
+    obj.author = false;
+    userB.friendList[BIndex].messages = [...userB.friendList[BIndex].messages, obj]
+    await User.updateOne({_id: userB._id}, {friendList: userB.friendList})
+
+    return res.json({ok: true})
+
   } catch (err) {
-    res.status(500).json(err);
+    return res.json({ok: false, error: "Błąd"})
   }
 })
 
