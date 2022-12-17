@@ -37,7 +37,7 @@ const Header = (props: any) => {
     <nav className="container">
       <div className="first">
         <img src={logo} onClick={logoClicked}></img>
-        <h2>
+        <h2 className="h">
           Witaj, <b>{props.user ?? user}!</b>
         </h2>
       </div>
