@@ -1,16 +1,9 @@
 import { useState } from "react";
 import { useClient } from "./settings";
 import styled from "styled-components";
-import {
-  createScreenVideoTrack,
-  createClient,
-  AgoraVideoPlayer,
-} from "agora-rtc-react";
 import Microphone from "../../resources/icons/microphone.svg";
 import Camera from "../../resources/icons/camera.svg";
 import Leave from "../../resources/icons/sign-out.svg";
-
-import ScreenShare from "./ScreenShare";
 
 export default function Controls(props) {
   const client = useClient();
@@ -109,7 +102,7 @@ export default function Controls(props) {
             }}
             onClick={() => mute("video")}
           >
-          <img className="camera-btn" src={Camera} alt="Camera" />
+            <img className="camera-btn" src={Camera} alt="Camera" />
           </ActionBtn>
         </div>
         <div>
