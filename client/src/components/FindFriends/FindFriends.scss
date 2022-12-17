@@ -16,8 +16,16 @@
 		border-radius: 20px;
 
 		.User__avatar {
+			background-image: url('../../resources/avatar.jpg');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+			margin-top: 10px;
+				width: 70px;
+				height: 70px;
+				border-radius: 15px;
+			
 			img {
-				margin-top: 10px;
 				width: 70px;
 				height: 70px;
 				border-radius: 15px;

@@ -39,6 +39,14 @@ const FindFriends: React.FC<Props> = ({ userData, getData, setRoomId }) => {
     console.log(data);
   };
 
+  const trys = (path:any) => {
+    try {
+     return (`http://localhost:5000/public/files/${path}.jpg`)
+    } catch (err) {
+     return Avatar;
+    }
+  };
+
   return (
     <div>
       <Header user={userData?.name} setRoomId={setRoomId} />
@@ -46,7 +54,7 @@ const FindFriends: React.FC<Props> = ({ userData, getData, setRoomId }) => {
         <div className="UserInfo">
           <div className="User__avatar">
             {/* <img src={userData?.avatar ?? Avatar} alt="avatar" /> */}
-            <img id="user_avatar_img" src={`http://localhost:5000/public/files/${userData?.id}.jpg`} alt="avatar" />
+            <img id="user_avatar_img" src={trys(userData?.id)} alt=""/>
           </div>
           <div className="User">
             <div className="User__name">{userData?.name}</div>
