@@ -7,10 +7,15 @@ import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/FindFriends/FindFriends";
 import Main from "./components/Room/Main";
+import VideoCall from "./components/Room/VideoCall";
+import { useState } from "react";
 
 function App() {
   const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
     useIsLoggedIn();
+
+  const [inCall, setInCall] = useState(true);
+  const [roomId, setRoomId] = useState("1");
 
   return (
     <div className="App">
@@ -33,7 +38,24 @@ function App() {
         ></Route>
         <Route
           path="/dashboard"
-          element={<Dashboard userData={userData} getData={getData} />}
+          element={
+            <Dashboard
+              userData={userData}
+              getData={getData}
+              setRoomId={setRoomId}
+            />
+          }
+        />
+        <Route
+          path="/room/:roomId"
+          element={
+            <VideoCall
+              setInCall={setInCall}
+              userName={userData?.name}
+              roomId={roomId}
+              setRoomId={setRoomId}
+            />
+          }
         />
         <Route path="/test" element={<Main userData={userData} />}></Route>
       </Routes>

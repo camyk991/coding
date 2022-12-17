@@ -17,10 +17,6 @@ function Room(props) {
     client,
   } = props;
 
-  //scroll messages into view - doesn't work yet
-  //let messagesContainer = document.getElementById("messages");
-  // messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
   //show and hide members container (left container)
   const [memberContainer, setMemberContainer] = useState(true);
   function handleMemberContainer() {
@@ -35,7 +31,7 @@ function Room(props) {
 
   return (
     <div className="RoomMain">
-      <Header ></Header>
+      <Header></Header>
       <main className="container">
         <div id="room__container">
           <Video tracks={tracks} users={users} />
@@ -50,18 +46,6 @@ function Room(props) {
             testChannel={testChannel}
             uid={client.uid}
           />
-
-          {/* bot messages? */}
-          {/* 
-            <div id="messages">
-              <div className="message__wrapper">
-              <div className="message__body__bot">
-                <strong className="message__author__bot">🤖 Mumble Bot</strong>
-                <p className="message__text__bot">
-                  Welcome to the room, Don't be shy, say hello!
-                </p>
-              </div>
-            </div> */}
         </div>
       </main>
     </div>

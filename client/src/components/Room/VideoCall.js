@@ -69,7 +69,7 @@ export default function VideoCall(props) {
 
       //try connecting to Agora
       try {
-        await client.join(config.appId, name, config.token, userData.id);
+        await client.join(config.appId, name, config.token, uid);
 
         //get video and audio and publish them
         if (tracks) {
@@ -82,7 +82,7 @@ export default function VideoCall(props) {
     };
 
     let rtmInit = async () => {
-      await rtmClient.login({ uid: userData.id });
+      await rtmClient.login({ uid: String(Date.now()) });
       //change to uid from database later
       await testChannel.join();
     };
@@ -109,7 +109,7 @@ export default function VideoCall(props) {
             roomId={lastSegment}
             rtmClient={rtmClient}
             testChannel={testChannel}
-            uid={userData.id}
+            uid={uid}
             client={client}
           />
         )}
