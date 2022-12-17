@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { UserInfoType } from "../API";
-import FindFriends from "../components/FindFriends/FindFriends";
-import UserList from "../components/UserList/UserList";
+import React, {useEffect, useRef} from 'react'
+import { UserInfoType } from '../API';
+import FindFriends from '../components/FindFriends/FindFriends';
+import UserList from '../components/UserList/UserList';
+import FileUploader from '../components/FileUploader/FileUploader';
 
 type Props = {
   userData: UserInfoType | undefined;
