@@ -45,10 +45,10 @@ export const useChatFetch = () => {
   }
 
   useEffect(() => {
-    setInterval(() => {
+    // setInterval(() => {
       fetchMessages();
       console.log(messages)
-    }, 500)
+    // }, 500)
   }, [])
 
   return {

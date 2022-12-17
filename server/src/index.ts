@@ -13,18 +13,18 @@ import jwt from "jsonwebtoken";
 const multer  = require('multer');
 //const upload = multer({ dest: "public/files" });
 
-var storage = multer.diskStorage(
-  {
-      destination: 'public/files',
-      filename: function ( req:any, file:any, cb:any ) {
-          //req.body is empty...
-          //How could I get the new_file_name property sent from client here?
-          cb( null, req.body.filename+file.originalname.slice(file.originalname.indexOf(".")) );
-      }
-  }
-);
+// var storage = multer.diskStorage(
+//   {
+//       destination: 'public/files',
+//       filename: function ( req:any, file:any, cb:any ) {
+//           //req.body is empty...
+//           //How could I get the new_file_name property sent from client here?
+//           cb( null, req.body.filename+file.originalname.slice(file.originalname.indexOf(".")) );
+//       }
+//   }
+// );
 
-var upload = multer( { storage: storage } );
+// var upload = multer( { storage: storage } );
 
 console.log("test!");
 
@@ -191,21 +191,34 @@ app.post(
       inviterMail = req.body.inviterMail,
       inviterName = req.body.inviterName;
 
+    console.log(id)
+    console.log(inviterMail)
+    console.log(inviterName)
+
     try {
       const user = await User.findById(id)
-      const inviterUser = await User.findOne({email: inviterMail});
-
+      const inviterUser = await User.findOne({id: inviterMail});
+      console.log(user)
+      console.log(inviterUser)
+      
       let friendList = user.friendList,
-          newFriendA = {inviterID: inviterUser._id, inviterMail: inviterMail, inviterName: inviterName},
-          newFriendB = {inviterID: user._id, inviterMail: user.email, inviterName: user.name};
+      newFriendA = {inviterID: inviterUser._id, inviterMail: inviterMail, inviterName: inviterName},
+      newFriendB = {inviterID: user._id, inviterMail: user.email, inviterName: user.name};
+
+      if (!friendList) {
+        user.friendList = [];
+        friendList = user.friendList;
+      }
+
 
       friendList.forEach((el) => {
-        if (el.inviterMail == newFriendA.inviterMail){
+        console.log(el.inviterMail, newFriendA.inviterMail);
+        if (el.inviterID.toString() == newFriendA.inviterID.toString()){
       
           return res.json({ok: false, error: "Ta osoba jest juz twoim znajomym"})
         }
       })
-
+      
       await User.updateOne({_id: id}, {
         friendList: [...friendList, newFriendA]
       })
@@ -213,7 +226,6 @@ app.post(
       await User.updateOne({_id: inviterUser._id}, {
         friendList: [...inviterUser.friendList, newFriendB]
       })
-      console.log('updateuje')
 
       return res.json({ok: true, msg: `Dodano ${user.name}`})
 
@@ -231,18 +243,18 @@ app.post('/api/getUser', async (req: express.Request, res: express.Response) => 
     res.json({ok: false, error: "Bład"})
   }
 });
-app.post('/api/uploadFile', upload.single('file'), async (req: express.Request, res: express.Response) => {
-  try {
-    const title = req.body.filename;
-    const file = req.body.file;
+// app.post('/api/uploadFile', upload.single('file'), async (req: express.Request, res: express.Response) => {
+//   try {
+//     const title = req.body.filename;
+//     const file = req.body.file;
 
-    console.log(title+"titlexd");
-    console.log(file+"filexd");
-    res.json({ok: true});
-  } catch(err) {
-    res.json({ok:false, error: err})
-  }
-});
+//     console.log(title+"titlexd");
+//     console.log(file+"filexd");
+//     res.json({ok: true});
+//   } catch(err) {
+//     res.json({ok:false, error: err})
+//   }
+// });
 
 // New conversation
 // app.post('/api/conversation', async (req: express.Request, res: express.Response) => {
@@ -362,6 +374,7 @@ app.post("/api/sendMessage", async (req: express.Request, res: express.Response)
     userB.friendList[BIndex].messages = [...userB.friendList[BIndex].messages, obj]
     await User.updateOne({_id: userB._id}, {friendList: userB.friendList})
 
+
     return res.json({ok: true})
 
   } catch (err) {
@@ -369,22 +382,22 @@ app.post("/api/sendMessage", async (req: express.Request, res: express.Response)
   }
 })
 
-app.get("/api/message/:conversationId", async (req: express.Request, res: express.Response) => {
-  try {
-    const messages = await Message.find({
-      conversationId: req.params.conversationId,
-    });
-    res.status(200).json(messages);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// app.get("/api/message/:conversationId", async (req: express.Request, res: express.Response) => {
+//   try {
+//     const messages = await Message.find({
+//       conversationId: req.params.conversationId,
+//     });
+//     res.status(200).json(messages);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-app.use('/public', express.static('public'));
+// app.use('/public', express.static('public'));
 
-app.get('/public/files/:filename',(req: express.Request,res: express.Response) => {
-  res.sendFile(__dirname + "/public/files/"+req.param('filename'));
-  });
+// app.get('/public/files/:filename',(req: express.Request,res: express.Response) => {
+//   res.sendFile(__dirname + "/public/files/"+req.param('filename'));
+//   });
   
 
 

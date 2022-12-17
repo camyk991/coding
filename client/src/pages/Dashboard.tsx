@@ -8,9 +8,10 @@ type Props = {
   userData: UserInfoType | undefined;
   getData: () => Promise<void>;
   setRoomId: any;
+  setLoggedIn: any;
 };
 
-const Dashboard: React.FC<Props> = ({ userData, getData, setRoomId }) => {
+const Dashboard: React.FC<Props> = ({ userData, getData, setRoomId, setLoggedIn }) => {
   const gotData = useRef(false);
 
   useEffect(() => {
@@ -24,6 +25,11 @@ const Dashboard: React.FC<Props> = ({ userData, getData, setRoomId }) => {
     console.log(userData);
   }, [userData]);
 
+  const handleClick = () => {
+    setLoggedIn(false);
+    localStorage.removeItem('user');
+  }
+
   return (
     <>
       <FindFriends
@@ -32,6 +38,8 @@ const Dashboard: React.FC<Props> = ({ userData, getData, setRoomId }) => {
         setRoomId={setRoomId}
       />
       <UserList userData={userData} />
+
+      <button onClick={handleClick}>Wyloguj się</button>
     </>
   );
 };
