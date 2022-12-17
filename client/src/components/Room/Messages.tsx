@@ -5,7 +5,7 @@ import { RtmMessage } from "agora-rtm-react";
 import Send from "../../resources/icons/send.svg";
 import Avatar from "../../resources/avatar.jpg";
 
-// import { text } from "stream/consumers";
+import API from "../../API";
 
 function Messages(props: any) {
   const {
@@ -19,18 +19,14 @@ function Messages(props: any) {
     uid,
   } = props;
 
-  //scroll messages into view - doesn't work yet
-  //let messagesContainer = document.getElementById("messages");
-  // messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
   const [texts, setTexts] = useState<messageStore[]>([]);
   const [textInput, setTextInput] = useState<string>("");
 
-  // let logout = async () => {
-  //   await testChannel.leave();
-  //   await rtmClient.logout();
-  //   testChannel.removeAllListeners();
-  //   rtmClient.removeAllListeners();
+  // const [currName, setCurrName] = useState<string>("");
+
+  // const getUserName = async (uid: any) => {
+  //   const userNameTemp = await API.findUserById(uid);
+  //   setCurrName(userNameTemp);
   // };
 
   //messages keep doubling
@@ -52,12 +48,6 @@ function Messages(props: any) {
         }
       });
     });
-
-    // testChannel.on("MemberJoined", (msg: any, uid: any) => {
-    //   setTexts((previous) => {
-    //     return [...previous, { msg, uid }];
-    //   });
-    // });
   }, []);
 
   const sendMsg = async (e: React.FormEvent<HTMLFormElement>, text: string) => {
@@ -91,8 +81,16 @@ function Messages(props: any) {
       >
         <div id="messages">
           {texts.map((text: messageStore, i) => (
-            <div key={i} className={ (text.uid === uid) ? "author message__wrapper" : "message__wrapper" }>
+            <div
+              key={i}
+              className={
+                text.uid === uid
+                  ? "author message__wrapper"
+                  : "message__wrapper"
+              }
+            >
               <div className="message__body">
+                {/* <p className="message__text">{text.uid}</p> */}
                 <p className="message__text">{getMsg(text.msg)}</p>
                 {/* TODO GET AVATAR FROM USER */}
                 <img className="message__avatar" src={Avatar} alt="avatar" />
@@ -116,10 +114,7 @@ function Messages(props: any) {
             onChange={(e) => setTextInput(e.target.value)}
           />
 
-          <button
-            id="message__submit"
-            type="submit"
-          >
+          <button id="message__submit" type="submit">
             <img src={Send} alt="send" />
           </button>
         </form>
@@ -127,13 +122,6 @@ function Messages(props: any) {
     </div>
   );
 }
-
-// if doesn't work
-// remember
-// you changed the RtmMessage type
-// type RtmMessage =
-//   | RtmTextMessage
-//   | RtmRawMessage;
 
 export type messageStore = {
   msg: RtmMessage;

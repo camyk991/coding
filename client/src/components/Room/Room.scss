@@ -24,6 +24,10 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+      background-image: url("../../resources/avatar.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 
       video,
       div {
@@ -46,6 +50,10 @@
         border: none;
         overflow: hidden;
         border-radius: 25px 25px 25px 0;
+        background-image: url("../../resources/avatar.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 
         .video-player {
           width: 100%;
