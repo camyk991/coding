@@ -3,8 +3,8 @@ import './Header.scss';
 import logo from '../../resources/logo.png'
 import add from '../../resources/icons/add.svg';
 
-const Header = () => {
-    const user = "{user}";
+const Header = (props: any) => {
+    const user = "użytkowniku";
 
     const logoClicked = () => {
         console.log("logo clicked");
@@ -27,7 +27,7 @@ const Header = () => {
         <nav className='container'>
             <div className='first'>
                 <img src={logo} onClick={logoClicked}></img>
-                <h2>Witaj, <b>{user}</b></h2>
+                <h2>Witaj, <b>{props.user ?? user}!</b></h2>
             </div>
             <div className='second'>
                 <button className='addroom' onClick={addRoomClicked}><span>Utwórz pokój</span><img src={add}></img></button>

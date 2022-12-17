@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import API, { UserInfoType } from '../../API';
+import Header from '../Header/Header';
+import './FindFriends.scss';
+import Mail from '../../resources/icons/mail.svg';
+import Avatar from '../../resources/avatar.jpg';
 
 type Props = {
   userData: UserInfoType | undefined;
@@ -40,16 +44,33 @@ const FindFriends: React.FC<Props> = ({userData, getData}) => {
 
   return (
     <div>
-      <div>Znajdź znajomych</div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Wpisz ID znajomego:
-          <input type="mail" name='text' onChange={(e) => setFriendID(e.target.value)}/>
-          <input type="submit" value="Szukaj" />
-        </label>
-        {info}
-      </form>
-
+      <Header user={userData?.name} />
+      <div className="Dashboard container">
+        <div className="UserInfo">
+          <div className="User__avatar">
+            {/* <img src={userData?.avatar ?? Avatar} alt="avatar" /> */}
+            <img src={Avatar} alt="avatar" />
+          </div>
+          <div className="User">
+            <div className="User__name">{userData?.name}</div>
+            <div className="User__mail">
+              <img src={Mail} alt="Mail" />
+              {userData?.mail}
+            </div>
+          </div>
+        </div>
+        <div className="FindFriends">
+          <h2>Znajdź znajomych</h2>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Wpisz ID znajomego:<br />
+              <input type="mail" name='text' onChange={(e) => setFriendID(e.target.value)}/><br />
+              <input className='submit' type="submit" value="Szukaj" /><br />
+            </label>
+            {info}
+          </form>
+        </div>
+      </div>
     </div>
   )
 }
