@@ -32,7 +32,7 @@ export default function ScreenShare(props) {
   const screenTrack = getScreenSharingVideoTrack(screenTracks);
 
   if (screenTracks) {
-    //works but also doesn't refreshes and it only updates for other, we still see our camera instead of screen
+    //works but also doesn't refresh and it only updates for others, we still see our camera instead of screen
     client.unpublish([videoTrack[1]]);
     client.publish(screenTrack);
 
