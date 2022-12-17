@@ -93,5 +93,42 @@ export default {
     });
 
     return await res.json();
+  },
+  fetchMessages: async(userId: string, chatId: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getMessages`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        chatId: chatId
+      }),
+    });
+
+    return await res.json();
+  },
+  sendMessage: async(userId: string | undefined, chatId: string | undefined, message: object) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/sendMessage`;
+
+    if (!userId || !chatId)
+      return;
+    
+    console.log('fetchuj')
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        chatId: chatId,
+        message: message
+      }),
+    });
+
+    return await res.json();
   }
 };

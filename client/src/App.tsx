@@ -9,6 +9,7 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import Dashboard from "./pages/Dashboard";
 import Main from "./components/Room/Main";
+import Chat from './components/Chat/Chat';
 
 function App() {
   const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
@@ -22,6 +23,7 @@ function App() {
         <Route path="/sign-up" element={<Register isLoggedIn={loggedIn}/>}></Route>
         <Route path="/sign-in" element={<Login isLoggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserData={setUserData} />}></Route>
         <Route path="/dashboard" element={<Dashboard userData={userData} getData={getData}/>} />
+        <Route path="/dashboard/:id" element={<Chat userData={userData} />} />
         <Route path="/test" element={<Main />}></Route>
 
       </Routes>
