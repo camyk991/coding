@@ -6,6 +6,8 @@ import Camera from "../../resources/icons/camera.svg";
 import Leave from "../../resources/icons/sign-out.svg";
 import Screen from "../../resources/icons/screen.svg";
 
+import ScreenShare from "./ScreenShare";
+
 export default function Controls(props) {
   const client = useClient();
   const { tracks: videoTrack, setStart, setInCall, users } = props;
@@ -104,6 +106,27 @@ export default function Controls(props) {
             onClick={() => mute("video")}
           >
             <img className="camera-btn" src={Camera} alt="Camera" />
+          </ActionBtn>
+        </div>
+        <div>
+          {/* share screen */}
+          <ActionBtn
+            onClick={() => {
+              setIsScreenSharing(!isScreenSharing);
+              setIfScreenShared(true);
+            }}
+            style={{
+              opacity: isScreenSharing ? 0.5 : 1,
+            }}
+          >
+            <img className="screen-btn" src={Screen} alt="Screen" />
+            <ScreenShare
+              isScreenSharing={isScreenSharing}
+              tracks={videoTrack}
+              users={users}
+              ifScreenShared={ifScreenShared}
+              setIfScreenShared={setIfScreenShared}
+            />
           </ActionBtn>
         </div>
         <div>
