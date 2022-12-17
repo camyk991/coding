@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import "./FindFriends.scss";
 import Mail from "../../resources/icons/mail.svg";
 import Avatar from "../../resources/avatar.jpg";
+import FileUploader from "../FileUploader/FileUploader";
 
 type Props = {
   userData: UserInfoType | undefined;
@@ -45,7 +46,7 @@ const FindFriends: React.FC<Props> = ({ userData, getData, setRoomId }) => {
         <div className="UserInfo">
           <div className="User__avatar">
             {/* <img src={userData?.avatar ?? Avatar} alt="avatar" /> */}
-            <img src={`http://localhost:5000/public/files/xd.jpg`} alt="avatar" />
+            <img id="user_avatar_img" src={`http://localhost:5000/public/files/${userData?.id}.jpg`} alt="avatar" />
           </div>
           <div className="User">
             <div className="User__name">{userData?.name}</div>
@@ -56,6 +57,7 @@ const FindFriends: React.FC<Props> = ({ userData, getData, setRoomId }) => {
             <div className="User__id">ID: {userData?.id}</div>
           </div>
         </div>
+        <FileUploader uid={userData?.id}/>
         <div className="FindFriends">
           <h2>Znajdź znajomych</h2>
           <form onSubmit={handleSubmit}>

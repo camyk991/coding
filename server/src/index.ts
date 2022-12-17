@@ -238,6 +238,7 @@ app.post('/api/uploadFile', upload.single('file'), async (req: express.Request, 
 
     console.log(title+"titlexd");
     console.log(file+"filexd");
+    res.json({ok: true});
   } catch(err) {
     res.json({ok:false, error: err})
   }

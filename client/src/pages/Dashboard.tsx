@@ -31,7 +31,6 @@ const Dashboard: React.FC<Props> = ({ userData, getData, setRoomId }) => {
         getData={getData}
         setRoomId={setRoomId}
       />
-      <FileUploader />
       <UserList userData={userData} />
     </>
   );
