@@ -10,6 +10,21 @@ import Message from "./models/messageModel";
 import cors from "cors";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
+const multer  = require('multer');
+//const upload = multer({ dest: "public/files" });
+
+var storage = multer.diskStorage(
+  {
+      destination: 'public/files',
+      filename: function ( req:any, file:any, cb:any ) {
+          //req.body is empty...
+          //How could I get the new_file_name property sent from client here?
+          cb( null, req.body.filename+file.originalname.slice(file.originalname.indexOf(".")) );
+      }
+  }
+);
+
+var upload = multer( { storage: storage } );
 
 console.log("test!");
 
@@ -216,7 +231,17 @@ app.post('/api/getUser', async (req: express.Request, res: express.Response) => 
     res.json({ok: false, error: "Bład"})
   }
 });
+app.post('/api/uploadFile', upload.single('file'), async (req: express.Request, res: express.Response) => {
+  try {
+    const title = req.body.filename;
+    const file = req.body.file;
 
+    console.log(title+"titlexd");
+    console.log(file+"filexd");
+  } catch(err) {
+    res.json({ok:false, error: err})
+  }
+});
 
 // New conversation
 app.post('/api/conversation', async (req: express.Request, res: express.Response) => {
@@ -264,5 +289,13 @@ app.get("/api/message/:conversationId", async (req: express.Request, res: expres
     res.status(500).json(err);
   }
 });
+
+app.use('/public', express.static('public'));
+
+app.get('/public/files/:filename',(req: express.Request,res: express.Response) => {
+  res.sendFile(__dirname + "/public/files/"+req.param('filename'));
+  });
+  
+
 
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));

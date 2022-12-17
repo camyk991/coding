@@ -45,7 +45,7 @@ const FindFriends: React.FC<Props> = ({ userData, getData, setRoomId }) => {
         <div className="UserInfo">
           <div className="User__avatar">
             {/* <img src={userData?.avatar ?? Avatar} alt="avatar" /> */}
-            <img src={Avatar} alt="avatar" />
+            <img src={`http://localhost:5000/public/files/xd.jpg`} alt="avatar" />
           </div>
           <div className="User">
             <div className="User__name">{userData?.name}</div>
