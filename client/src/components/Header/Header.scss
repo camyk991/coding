@@ -19,10 +19,11 @@ nav {
         cursor: pointer;
     }
 
-    h2 {
+    .h {
         font-size: 16px;
         color: v.$color--light;
         font-family: Poppins;
+        margin-top: 0;
     }
 
     .first {
