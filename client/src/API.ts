@@ -78,5 +78,20 @@ export default {
     });
 
     return await res.json();
+  },
+  findUserById: async(id: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getUser`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    });
+
+    return await res.json();
   }
 };
