@@ -243,4 +243,26 @@ app.get("/api/conversation/:userId", async (req: express.Request, res: express.R
   }
 });
 
+app.post("/api/message", async (req: express.Request, res: express.Response) => {
+  const newMessage = new Message(req.body);
+
+  try {
+    const savedMessage = await newMessage.save();
+    res.status(200).json(savedMessage);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+app.get("/api/message/:conversationId", async (req: express.Request, res: express.Response) => {
+  try {
+    const messages = await Message.find({
+      conversationId: req.params.conversationId,
+    });
+    res.status(200).json(messages);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
