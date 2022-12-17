@@ -57,6 +57,9 @@ const FindFriends: React.FC<Props> = ({userData, getData}) => {
               <img src={Mail} alt="Mail" />
               {userData?.mail}
             </div>
+            <div className="User__id">
+              ID: {userData?.id}
+            </div>
           </div>
         </div>
         <div className="FindFriends">

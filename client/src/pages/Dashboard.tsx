@@ -29,7 +29,6 @@ const Dashboard: React.FC<Props> = ({userData, getData}) => {
     <>
       <FindFriends userData={userData} getData={getData} />
       <UserList userData={userData} />
-      {userData?.id}
     </>
   )
 }
