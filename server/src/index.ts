@@ -5,6 +5,8 @@ import connectDB from "./config/db";
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import User from "./models/userModel";
+import Conversation from "./models/conversationModel";
+import Message from "./models/messageModel";
 import cors from "cors";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
@@ -161,6 +163,7 @@ app.post(
   }
 );
 
+// Add to friends
 app.post(
   "/api/findFriends",
   [
@@ -205,5 +208,39 @@ app.post(
     }
   }
 );
+app.post('/api/getUser', async (req: express.Request, res: express.Response) => {
+  try {
+    const user = await User.findById(req.body.id)
+    res.json({ok: true, userName: user.name, userAvatar: user.profileImage})
+  } catch(err) {
+    res.json({ok: false, error: "Bład"})
+  }
+});
+
+
+// New conversation
+app.post('/api/conversation', async (req: express.Request, res: express.Response) => {
+  const newConversation = new Conversation({
+    members: [req.body.senderId, req.body.receiverId],
+  });
+
+  try {
+    const savedConversation = await newConversation.save();
+    res.status(200).json(savedConversation);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+app.get("/api/conversation/:userId", async (req: express.Request, res: express.Response) => {
+  try {
+    const conversation = await Conversation.find({
+      members: { $in: [req.params.userId] },
+    });
+    res.status(200).json(conversation);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
