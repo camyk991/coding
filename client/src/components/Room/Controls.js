@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Microphone from "../../resources/icons/microphone.svg";
 import Camera from "../../resources/icons/camera.svg";
 import Leave from "../../resources/icons/sign-out.svg";
+import Screen from "../../resources/icons/screen.svg";
 
 export default function Controls(props) {
   const client = useClient();
