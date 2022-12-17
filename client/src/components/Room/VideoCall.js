@@ -9,7 +9,7 @@ export const useRtmClient = createClient("a3c62a430c5841dea1060444ce7eaf9c");
 export const useChannel = createChannel(window.location.href.split("/").pop());
 
 export default function VideoCall(props) {
-  const { userName, roomId, setInCall, setRoomId } = props;
+  const { userName, roomId, setInCall, setRoomId, userData } = props;
   const [users, setUsers] = useState([]);
   const [start, setStart] = useState(false);
   let client = useClient();
@@ -83,6 +83,7 @@ export default function VideoCall(props) {
 
     let rtmInit = async () => {
       await rtmClient.login({ uid: String(Date.now()) });
+      //change to uid from database later
       await testChannel.join();
     };
 

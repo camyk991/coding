@@ -24,8 +24,13 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+      background-image: url("../../resources/avatar.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 
-      video, div {
+      video,
+      div {
         width: 100vw;
         height: 100vh;
       }
@@ -45,6 +50,10 @@
         border: none;
         overflow: hidden;
         border-radius: 25px 25px 25px 0;
+        background-image: url("../../resources/avatar.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 
         .video-player {
           width: 100%;
@@ -72,7 +81,8 @@
 
       .microphone-btn,
       .camera-btn,
-      .leave-btn {
+      .leave-btn,
+      .screen-btn {
         width: auto;
         height: 30px;
       }
@@ -97,7 +107,6 @@
       padding-bottom: 7px;
       text-align: center;
       border-bottom: 2px solid v.$color--dark;
-
     }
 
     #messages__container {
@@ -135,12 +144,11 @@
       }
 
       .message__wrapper {
-
         &.author {
           .message__body {
             justify-content: flex-end;
             flex-direction: row-reverse;
-            
+
             .message__text {
               border-radius: 15px 15px 15px 0;
             }
@@ -153,7 +161,7 @@
           justify-content: center;
           gap: 9px;
           justify-content: flex-start;
-          
+
           .message__text {
             background-color: v.$color--darkest;
             padding: 10px;
@@ -199,6 +207,5 @@
         }
       }
     }
-
   }
 }

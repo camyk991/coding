@@ -16,7 +16,6 @@ export default function ScreenShare(props) {
     }
   };
 
-  //this line asks for permission
   if (isScreenSharing) {
     const { ready, tracks } = getScreenVideoTrack();
     screenTracks = tracks;
@@ -32,12 +31,11 @@ export default function ScreenShare(props) {
   const screenTrack = getScreenSharingVideoTrack(screenTracks);
 
   if (screenTracks) {
-    //works but also doesn't refreshes and it only updates for other, we still see our camera instead of screen
     client.unpublish([videoTrack[1]]);
     client.publish(screenTrack);
 
     //1-video, 0-audio
-    //videoTrack[1] = screenTrack; //now we can see our screen as well
+    //videoTrack[1] = screenTrack;
   }
 
   if (!isScreenSharing) {

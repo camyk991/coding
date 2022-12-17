@@ -79,6 +79,16 @@ export default {
 
     return await res.json();
   },
+  uploadFile: async (formData: FormData) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/uploadFile`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      body: formData,
+    });
+
+    return await res.json();
+  },
   findUserById: async(id: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/getUser`;
 

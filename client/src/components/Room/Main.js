@@ -1,9 +1,8 @@
 import { useState } from "react";
 import VideoCall from "./VideoCall";
-import logo from "./logo.png";
 import "./Lobby.css";
 
-function Main() {
+function Main({ userData }) {
   const [inCall, setInCall] = useState(false);
   const [userName, setUserName] = useState();
 
@@ -22,10 +21,14 @@ function Main() {
   return (
     <div className="Main">
       {inCall ? (
-        <VideoCall setInCall={setInCall} userName={userName} roomId={roomId} />
+        <VideoCall
+          setInCall={setInCall}
+          userName={userData.name}
+          roomId={roomId}
+          userData={userData}
+        />
       ) : (
         <div className="Lobby">
-
           <main id="room__lobby__container">
             <div id="form__container">
               <div id="form__container__header">
