@@ -29,26 +29,23 @@ export const useChatFetch = () => {
   const userStoredData = rawStoredData ? JSON.parse(rawStoredData) : null;
 
   const fetchMessages = async() => {
-
     try {
-      setLoading(true)
+      // setLoading(true)
       if (!chatId)
         return;
 
-      const messages = await API.fetchMessages(userStoredData.id, chatId);
-      console.log(messages);
-      setMessages(messages);
+      const msgs = await API.fetchMessages(userStoredData.id, chatId);
+      setMessages(msgs);
 
     } catch (err) {
-      return;
+      console.log("ERROR!")
     }
   }
 
   useEffect(() => {
-    // setInterval(() => {
+    setInterval(() => {
       fetchMessages();
-      console.log(messages)
-    // }, 500)
+    }, 500)
   }, [])
 
   return {

@@ -23,16 +23,16 @@ const Chat: React.FC<Props> = ({userData}) => {
 
   const chatId = useParams().id?.toString();
 
-  useEffect(() => {
-    // socket.current = io("ws://localhost:8900");
-    // socket.current.on("getMessage", (data: any) => {
-    //   setArrivalMessage({
-    //     sender: data.senderId,
-    //     text: data.text,
-    //     createdAt: Date.now(),
-    //   });
-    // });
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io("ws://localhost:8900");
+  //   socket.current.on("getMessage", (data: any) => {
+  //     setArrivalMessage({
+  //       sender: data.senderId,
+  //       text: data.text,
+  //       createdAt: Date.now(),
+  //     });
+  //   });
+  // }, []);
 
   useEffect(() => {
     // setSocket(io("ws://localhost:8900"))
@@ -40,7 +40,6 @@ const Chat: React.FC<Props> = ({userData}) => {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    console.log(text);
 
     if (!text)
       return;
@@ -48,9 +47,9 @@ const Chat: React.FC<Props> = ({userData}) => {
     let d = new Date();
     const message = Encryption.encrypt(text, userData?.id ?? '', chatId ?? '');
 
-    const mesObj = {author: true, content: message, createdAt: d}
+    const mesObj = {author: true, content: message, createdAt: d};
 
-    const res = await API.sendMessage(userData?.id, chatId, mesObj)
+    const res = await API.sendMessage(userData?.id, chatId, mesObj);
     setText('');
   }
 
@@ -63,8 +62,8 @@ const Chat: React.FC<Props> = ({userData}) => {
             <div>
               {messages && messages.messages?.length > 0 && messages.messages.map((el) => {
                 return (
-                <div className={el.author ? 'sent message__body' : 'got message__body'}>
-                  <span key={el.createdAt} className='message__text'>{Encryption.decrypt(el.content, userData?.id ?? '', messages.inviterID ?? '')}</span>
+                <div key={el.createdAt} className={el.author ? 'sent message__body' : 'got message__body'}>
+                  <span className='message__text'>{Encryption.decrypt(el.content, userData?.id ?? '', messages.inviterID ?? '')}</span>
                   <img className='message__avatar' src={`${process.env.REACT_APP_API_URL}/public/files/${el.author ? userData?.id ?? '' : messages.inviterID ?? ''}.jpg`} alt="avatar" />
                 </div>
                 )

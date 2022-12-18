@@ -312,18 +312,14 @@ app.post("/api/getMessages", async (req: express.Request, res: express.Response)
     const user = await User.findById(id)
     const user2 = await User.findById(chatId)
 
-    const conv = user.friendList.filter((el) => {
-      console.log(el.inviterID)
-      console.log(user2._id)
+    let convData: any[] = [];
+    let conv = user.friendList.filter((el) => {
       if (el.inviterID.toString() === user2._id.toString()) {
-        console.log("found " + el.toString())
+        convData = el;
         return el;
       }
     })
-
-    
-
-    return res.json(conv[0])
+    return res.json(convData)
 
   } catch (err) {
     return res.json({ok: false, error: "Błąd"})
